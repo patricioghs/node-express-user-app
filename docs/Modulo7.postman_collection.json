@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "Módulo 7 - Node Express PostgreSQL",
+    "_postman_id": "modulo7-node-express-postgresql",
+    "description": "Pruebas para CRUD, ORM, relaciones y transacciones.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "GET Usuarios SQL",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/usuarios"
+          }
+        },
+        {
+          "name": "GET Usuarios filtro Juan",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/usuarios?nombre=Juan"
+          }
+        },
+        {
+          "name": "GET Usuarios ORM",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/usuarios/orm"
+          }
+        },
+        {
+          "name": "GET Usuario 1 con pedidos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/usuarios/1/pedidos"
+          }
+        },
+        {
+          "name": "POST Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Ana Torres\",\n  \"email\": \"ana.torres@example.com\",\n  \"password\": \"Clave1234\"\n}"
+            },
+            "url": "{{baseUrl}}/usuarios"
+          }
+        },
+        {
+          "name": "PUT Usuario 1",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Juan Pérez Actualizado\"\n}"
+            },
+            "url": "{{baseUrl}}/usuarios/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pedidos",
+      "item": [
+        {
+          "name": "GET Pedidos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/pedidos"
+          }
+        },
+        {
+          "name": "POST Pedido",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"descripcion\": \"Nuevo pedido\",\n  \"total\": 15000,\n  \"estado\": \"pendiente\"\n}"
+            },
+            "url": "{{baseUrl}}/pedidos"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transacciones",
+      "item": [
+        {
+          "name": "POST Transacción exitosa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Transaccion\",\n  \"email\": \"transaccion.ok@example.com\",\n  \"password\": \"Clave1234\",\n  \"descripcion\": \"Primer pedido\",\n  \"total\": 19990,\n  \"forceError\": false\n}"
+            },
+            "url": "{{baseUrl}}/transacciones/usuario-pedido"
+          }
+        },
+        {
+          "name": "POST Rollback forzado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Usuario Rollback\",\n  \"email\": \"rollback@example.com\",\n  \"password\": \"Clave1234\",\n  \"descripcion\": \"Pedido no persistido\",\n  \"total\": 9990,\n  \"forceError\": true\n}"
+            },
+            "url": "{{baseUrl}}/transacciones/usuario-pedido"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -12,16 +10,14 @@ body {
   color: #e2e8f0;
 }
 
-.container {
-  width: min(92%, 760px);
-}
+.container { width: min(92%, 850px); }
 
 .card {
   padding: 42px;
   border-radius: 22px;
   background: #172033;
   border: 1px solid #334155;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
 }
 
 .badge {
@@ -29,21 +25,14 @@ body {
   margin-bottom: 18px;
   padding: 7px 12px;
   border-radius: 999px;
-  background: #0ea5e9;
-  color: #082f49;
+  background: #22c55e;
+  color: #052e16;
   font-size: 13px;
   font-weight: 700;
 }
 
-h1 {
-  margin: 0 0 16px;
-  font-size: clamp(2rem, 6vw, 3.4rem);
-}
-
-p {
-  color: #aebdd1;
-  line-height: 1.7;
-}
+h1 { margin: 0 0 16px; font-size: clamp(2rem, 6vw, 3.4rem); }
+p { color: #aebdd1; line-height: 1.7; }
 
 .actions {
   display: flex;
@@ -68,6 +57,4 @@ p {
   border-top: 1px solid #334155;
 }
 
-.info span {
-  color: #94a3b8;
-}
+.info span { color: #94a3b8; }

@@ -1,6 +1,10 @@
-
-21-09-2026 - 21:36:00 - GET /
-21-09-2026 - 21:36:04 - GET /status
-21-09-2026 - 21:39:56 - GET /
-21-09-2026 - 21:40:11 - GET /
-21-09-2026 - 21:40:25 - GET /status
+21-09-2026 - 22:55:03 - GET /
+21-09-2026 - 22:55:48 - GET /usuarios
+21-09-2026 - 22:56:01 - GET /usuarios/orm
+21-09-2026 - 22:56:22 - GET /usuarios/1/pedidos
+21-09-2026 - 22:56:36 - GET /pedidos
+21-09-2026 - 23:00:25 - POST /usuarios
+21-09-2026 - 23:01:09 - PUT /usuarios/1
+21-09-2026 - 23:01:54 - DELETE /usuarios/4
+21-09-2026 - 23:02:36 - POST /transacciones/usuario-pedido
+21-09-2026 - 23:03:03 - POST /transacciones/usuario-pedido
