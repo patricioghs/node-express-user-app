@@ -1,0 +1,29 @@
+{
+  "name": "node-express-user-app",
+  "version": "1.0.0",
+  "description": "Proyecto integrador Módulo 6: servidor Node.js y Express con rutas públicas, contenido estático y persistencia en archivos planos.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "backend",
+    "sence",
+    "fullstack"
+  ],
+  "author": "Jonathan Patricio García-Huidobro Sandoval",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
