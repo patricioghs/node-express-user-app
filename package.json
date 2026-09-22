@@ -1,23 +1,22 @@
 {
   "name": "node-express-user-app",
-  "version": "2.0.0",
-  "description": "Proyecto integrador Módulo 7: Node.js, Express, PostgreSQL, Sequelize, CRUD, relaciones y transacciones.",
+  "version": "3.0.0",
+  "description": "Proyecto integrador módulos 6, 7 y 8: Node.js, Express, PostgreSQL, Sequelize, API REST, JWT y subida de archivos.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "seed": "node scripts/seed.js"
   },
-  "keywords": ["nodejs", "express", "postgresql", "sequelize", "crud", "backend"],
   "author": "Jonathan Patricio García-Huidobro Sandoval",
   "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
+  "engines": { "node": ">=18" },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.5"

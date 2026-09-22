@@ -1,25 +1,15 @@
 const User = require("./User");
 const Order = require("./Order");
 
-// Relación 1:N: un usuario puede tener muchos pedidos.
 User.hasMany(Order, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false
-  },
+  foreignKey: { name: "userId", allowNull: false },
   as: "pedidos",
   onDelete: "CASCADE"
 });
 
 Order.belongsTo(User, {
-  foreignKey: {
-    name: "userId",
-    allowNull: false
-  },
+  foreignKey: { name: "userId", allowNull: false },
   as: "usuario"
 });
 
-module.exports = {
-  User,
-  Order
-};
+module.exports = { User, Order };

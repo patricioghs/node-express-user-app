@@ -6,13 +6,10 @@ function showHome(req, res) {
 
 function showStatus(req, res) {
   res.status(200).json({
-    status: "ok",
-    message: "Servidor y aplicación en funcionamiento",
-    timestamp: new Date().toISOString()
+    status: "success",
+    message: "API funcionando correctamente",
+    data: { timestamp: new Date().toISOString() }
   });
 }
 
-module.exports = {
-  showHome,
-  showStatus
-};
+module.exports = { showHome, showStatus };

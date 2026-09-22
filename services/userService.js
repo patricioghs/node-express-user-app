@@ -19,7 +19,6 @@ async function getUsersWithSql({ nombre, page = 1, limit = 10 }) {
 
   values.push(safeLimit);
   const limitPosition = values.length;
-
   values.push(offset);
   const offsetPosition = values.length;
 
@@ -34,11 +33,7 @@ async function getUsersWithSql({ nombre, page = 1, limit = 10 }) {
 
   const result = await pool.query(query, values);
 
-  return {
-    page: safePage,
-    limit: safeLimit,
-    data: result.rows
-  };
+  return { page: safePage, limit: safeLimit, data: result.rows };
 }
 
 async function getUsersWithOrm(nombre) {
@@ -53,15 +48,16 @@ async function getUsersWithOrm(nombre) {
   });
 }
 
+async function getUserById(id) {
+  return User.findByPk(id, {
+    attributes: { exclude: ["passwordHash"] }
+  });
+}
+
 async function getUserWithOrders(id) {
   return User.findByPk(id, {
     attributes: { exclude: ["passwordHash"] },
-    include: [
-      {
-        model: Order,
-        as: "pedidos"
-      }
-    ]
+    include: [{ model: Order, as: "pedidos" }]
   });
 }
 
@@ -80,29 +76,20 @@ async function createUser({ nombre, email, password }) {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-
-  const user = await User.create({
-    nombre,
-    email,
-    passwordHash
-  });
-
+  const user = await User.create({ nombre, email, passwordHash });
   return sanitizeUser(user);
 }
 
 async function updateUser(id, data) {
   const user = await User.findByPk(id);
-
   if (!user) {
     const error = new Error("Usuario no encontrado");
     error.status = 404;
     throw error;
   }
 
-  // Solo se permiten campos explícitamente autorizados.
   if (data.nombre !== undefined) user.nombre = data.nombre;
   if (data.email !== undefined) user.email = data.email;
-
   if (data.password !== undefined) {
     user.passwordHash = await bcrypt.hash(data.password, 10);
   }
@@ -113,13 +100,11 @@ async function updateUser(id, data) {
 
 async function deleteUser(id) {
   const user = await User.findByPk(id);
-
   if (!user) {
     const error = new Error("Usuario no encontrado");
     error.status = 404;
     throw error;
   }
-
   await user.destroy();
 }
 
@@ -132,6 +117,7 @@ function sanitizeUser(user) {
 module.exports = {
   getUsersWithSql,
   getUsersWithOrm,
+  getUserById,
   getUserWithOrders,
   createUser,
   updateUser,

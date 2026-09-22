@@ -3,7 +3,6 @@ const transactionService = require("../services/transactionService");
 async function createUserAndOrder(req, res, next) {
   try {
     const result = await transactionService.createUserAndOrder(req.body);
-
     res.status(201).json({
       status: "success",
       message: "Transacción completada correctamente",
@@ -14,6 +13,4 @@ async function createUserAndOrder(req, res, next) {
   }
 }
 
-module.exports = {
-  createUserAndOrder
-};
+module.exports = { createUserAndOrder };

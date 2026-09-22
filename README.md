@@ -1,38 +1,71 @@
-# Node & Express Web App — Módulo 7
+# Node & Express Web App — Proyecto integrador final
 
 **Autor:** Jonathan Patricio García-Huidobro Sandoval  
-**Curso:** Desarrollo de Aplicaciones Full Stack JavaScript Trainee
+**Curso:** Desarrollo de Aplicaciones Full Stack JavaScript Trainee  
+**Etapa:** Módulo 8 — API RESTful segura
 
-Este proyecto continúa la aplicación iniciada en el Módulo 6.
+## Resumen
 
-## Funcionalidades agregadas en el Módulo 7
+Este repositorio integra el trabajo realizado en los módulos 6, 7 y 8.
 
-- PostgreSQL como base de datos relacional.
-- Cliente SQL `pg`.
+### Módulo 6
+- Node.js y Express.
+- Rutas y controladores.
+- Archivos estáticos.
+- Persistencia básica en logs.
+
+### Módulo 7
+- PostgreSQL.
+- SQL con `pg`.
 - Sequelize ORM.
-- Modelos `User` y `Order`.
-- Relación 1:N Usuario → Pedidos.
-- CRUD de usuarios.
-- CRUD de pedidos.
-- Consulta SQL manual y consulta ORM.
-- Filtro por nombre y paginación.
-- Transacciones con rollback.
-- Validaciones y manejo de errores.
-- Credenciales almacenadas en `.env`.
-- Contraseñas almacenadas como hash.
+- CRUD.
+- Relaciones.
+- Transacciones y rollback.
 
-## Instalación rápida
+### Módulo 8
+- API RESTful.
+- Login con JWT.
+- Middleware de autenticación.
+- Rutas protegidas.
+- Subida de archivos con multer.
+- Validación de tipo y tamaño.
+- Respuestas API consistentes.
+
+## Stack
+
+- Node.js 18+
+- Express.js
+- PostgreSQL
+- Sequelize
+- pg
+- bcryptjs
+- jsonwebtoken
+- multer
+- dotenv
+- nodemon
+
+## Instalación
 
 ```bash
 npm install
 ```
 
-Crea `.env` a partir de `.env.example`.
+Crea `.env` basándote en `.env.example`.
 
-Crea en PostgreSQL:
+Ejemplo:
 
-```sql
-CREATE DATABASE node_express_app;
+```env
+PORT=3000
+
+DB_HOST=localhost
+DB_PORT=5433
+DB_NAME=node_express_app
+DB_USER=postgres
+DB_PASSWORD=TU_PASSWORD
+DB_DIALECT=postgres
+
+JWT_SECRET=UNA_CLAVE_LARGA_Y_PRIVADA
+JWT_EXPIRES_IN=1h
 ```
 
 Ejecuta:
@@ -41,125 +74,100 @@ Ejecuta:
 npm run dev
 ```
 
-Luego, en otra terminal:
+## Autenticación
 
-```bash
-npm run seed
-```
-
-## Rutas principales
-
-### SQL manual
-
-```http
-GET /usuarios
-GET /usuarios?nombre=Juan
-GET /usuarios?page=1&limit=10
-```
-
-### Sequelize ORM
-
-```http
-GET /usuarios/orm
-```
-
-### CRUD usuarios
-
-```http
-POST   /usuarios
-PUT    /usuarios/:id
-DELETE /usuarios/:id
-```
-
-Ejemplo POST:
+### POST /login
 
 ```json
 {
-  "nombre": "Ana Torres",
-  "email": "ana.torres@example.com",
-  "password": "Clave1234"
+  "email": "juan@example.com",
+  "password": "Demo1234"
 }
 ```
 
-### CRUD pedidos
+Luego envía el token en rutas protegidas:
 
-```http
-GET    /pedidos
-POST   /pedidos
-PUT    /pedidos/:id
-DELETE /pedidos/:id
+```text
+Authorization: Bearer TOKEN
 ```
 
-Ejemplo POST:
+## Endpoints principales
 
-```json
-{
-  "userId": 1,
-  "descripcion": "Nuevo pedido",
-  "total": 15000,
-  "estado": "pendiente"
-}
+| Método | Ruta | JWT |
+|---|---|---|
+| GET | `/status` | No |
+| POST | `/login` | No |
+| GET | `/perfil` | Sí |
+| GET | `/usuarios` | No |
+| GET | `/usuarios/orm` | No |
+| POST | `/usuarios` | No |
+| PUT | `/usuarios/:id` | Sí |
+| DELETE | `/usuarios/:id` | Sí |
+| GET | `/usuarios/:id/pedidos` | No |
+| GET | `/pedidos` | No |
+| POST | `/pedidos` | Sí |
+| PUT | `/pedidos/:id` | Sí |
+| DELETE | `/pedidos/:id` | Sí |
+| POST | `/transacciones/usuario-pedido` | Sí |
+| POST | `/upload` | Sí |
+
+## Subida de archivos
+
+Endpoint:
+
+```text
+POST /upload
 ```
 
-### Relación
+En Postman:
 
-```http
-GET /usuarios/1/pedidos
-```
+1. Authorization → Bearer Token.
+2. Body → form-data.
+3. Key: `archivo`.
+4. Tipo: File.
+5. Selecciona JPG, PNG o WEBP.
 
-Esta ruta usa `include` de Sequelize.
-
-### Transacción
-
-```http
-POST /transacciones/usuario-pedido
-```
-
-Ejemplo exitoso:
-
-```json
-{
-  "nombre": "Usuario Transaccion",
-  "email": "transaccion.ok@example.com",
-  "password": "Clave1234",
-  "descripcion": "Primer pedido",
-  "total": 19990,
-  "forceError": false
-}
-```
-
-Para demostrar rollback usa otro email y:
-
-```json
-{
-  "nombre": "Usuario Rollback",
-  "email": "rollback@example.com",
-  "password": "Clave1234",
-  "descripcion": "Pedido no persistido",
-  "total": 9990,
-  "forceError": true
-}
-```
-
-## SQL manual vs ORM
-
-`GET /usuarios` utiliza SQL parametrizado con `pg`.
-
-`GET /usuarios/orm` utiliza Sequelize.
-
-El primer enfoque permite ver directamente la consulta SQL. El ORM permite trabajar con modelos, validaciones, asociaciones y transacciones con menos código repetitivo.
+Tamaño máximo: **2 MB**.
 
 ## Seguridad
 
-`.env` está incluido en `.gitignore`, por lo que las credenciales de PostgreSQL no deben subirse a GitHub.
+- `.env` no se versiona.
+- Las contraseñas usan hash bcrypt.
+- Las rutas sensibles usan JWT.
+- Tokens inválidos o expirados devuelven HTTP 401.
+- Los uploads validan MIME type y tamaño.
 
-Las contraseñas se transforman en hash con bcryptjs y `passwordHash` se excluye de las respuestas.
+## Formato de respuestas
 
-## Documentación
+Éxito:
 
-Consulta:
+```json
+{
+  "status": "success",
+  "message": "Operación realizada",
+  "data": {}
+}
+```
 
-- `docs/PASOS_INSTALACION_WINDOWS.md`
-- `docs/GUIA_EVIDENCIAS_MODULO7.md`
-- `docs/REFLEXION_TECNICA_MODULO7.md`
-- `docs/Modulo7.postman_collection.json`
+Error:
+
+```json
+{
+  "status": "error",
+  "message": "Descripción del problema",
+  "data": null
+}
+```
+
+## Documentación adicional
+
+- `docs/API_ENDPOINTS.md`
+- `docs/PASOS_INSTALACION_MODULO8.md`
+- `docs/GUIA_EVIDENCIAS_MODULO8.md`
+- `docs/REFLEXION_TECNICA_MODULO8.md`
+- `docs/openapi.json`
+- `docs/Modulo8.postman_collection.json`
+
+## Evolución
+
+El proyecto evolucionó desde un servidor Express básico a un backend conectado a PostgreSQL y finalmente a una API RESTful con autenticación y manejo de archivos.

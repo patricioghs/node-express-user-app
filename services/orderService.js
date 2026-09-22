@@ -2,13 +2,11 @@ const { Order, User } = require("../models");
 
 async function getOrders() {
   return Order.findAll({
-    include: [
-      {
-        model: User,
-        as: "usuario",
-        attributes: ["id", "nombre", "email"]
-      }
-    ],
+    include: [{
+      model: User,
+      as: "usuario",
+      attributes: ["id", "nombre", "email"]
+    }],
     order: [["id", "ASC"]]
   });
 }
@@ -37,19 +35,14 @@ async function createOrder({ userId, descripcion, total, estado }) {
 
 async function updateOrder(id, data) {
   const order = await Order.findByPk(id);
-
   if (!order) {
     const error = new Error("Pedido no encontrado");
     error.status = 404;
     throw error;
   }
 
-  const allowed = ["descripcion", "total", "estado"];
-
-  for (const field of allowed) {
-    if (data[field] !== undefined) {
-      order[field] = data[field];
-    }
+  for (const field of ["descripcion", "total", "estado"]) {
+    if (data[field] !== undefined) order[field] = data[field];
   }
 
   await order.save();
@@ -58,19 +51,12 @@ async function updateOrder(id, data) {
 
 async function deleteOrder(id) {
   const order = await Order.findByPk(id);
-
   if (!order) {
     const error = new Error("Pedido no encontrado");
     error.status = 404;
     throw error;
   }
-
   await order.destroy();
 }
 
-module.exports = {
-  getOrders,
-  createOrder,
-  updateOrder,
-  deleteOrder
-};
+module.exports = { getOrders, createOrder, updateOrder, deleteOrder };

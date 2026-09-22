@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Node & Express User API",
+    "version": "3.0.0",
+    "description": "Proyecto integrador módulos 6, 7 y 8."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Autenticación y generación de JWT",
+        "responses": {
+          "200": {
+            "description": "Login correcto"
+          },
+          "401": {
+            "description": "Credenciales inválidas"
+          }
+        }
+      }
+    },
+    "/usuarios": {
+      "get": {
+        "summary": "Listar usuarios",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "summary": "Registrar usuario",
+        "responses": {
+          "201": {
+            "description": "Creado"
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "summary": "Subir imagen",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Archivo subido"
+          },
+          "400": {
+            "description": "Archivo inválido"
+          },
+          "401": {
+            "description": "No autenticado"
+          }
+        }
+      }
+    }
+  }
+}

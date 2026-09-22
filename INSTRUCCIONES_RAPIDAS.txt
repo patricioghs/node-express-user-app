@@ -1,0 +1,23 @@
+MÓDULO 8 - PASOS RÁPIDOS
+
+1. Copia estos archivos sobre la MISMA carpeta del Módulo 7.
+2. Conserva `.git` y `.env`.
+3. En `.env` agrega:
+   JWT_SECRET=una_clave_larga
+   JWT_EXPIRES_IN=1h
+4. Ejecuta:
+   npm install
+5. Ejecuta:
+   npm run dev
+6. Importa en Postman:
+   docs/Modulo8.postman_collection.json
+7. Ejecuta primero "POST Login correcto".
+8. Prueba GET /perfil con y sin token.
+9. Prueba PUT /usuarios/1 con y sin token.
+10. Prueba POST /upload con JPG/PNG/WEBP < 2 MB.
+11. Toma las capturas de docs/GUIA_EVIDENCIAS_MODULO8.md
+12. Actualiza GitHub.
+
+IMPORTANTE:
+- No subas `.env`.
+- No muestres tu contraseña ni JWT_SECRET.

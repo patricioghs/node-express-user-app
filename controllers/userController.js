@@ -3,7 +3,6 @@ const userService = require("../services/userService");
 async function listUsersSql(req, res, next) {
   try {
     const result = await userService.getUsersWithSql(req.query);
-
     res.status(200).json({
       status: "success",
       message: "Usuarios obtenidos mediante SQL manual",
@@ -17,7 +16,6 @@ async function listUsersSql(req, res, next) {
 async function listUsersOrm(req, res, next) {
   try {
     const users = await userService.getUsersWithOrm(req.query.nombre);
-
     res.status(200).json({
       status: "success",
       message: "Usuarios obtenidos mediante Sequelize ORM",
@@ -53,7 +51,6 @@ async function showUserWithOrders(req, res, next) {
 async function createUser(req, res, next) {
   try {
     const user = await userService.createUser(req.body);
-
     res.status(201).json({
       status: "success",
       message: "Usuario creado correctamente",
@@ -67,7 +64,6 @@ async function createUser(req, res, next) {
 async function updateUser(req, res, next) {
   try {
     const user = await userService.updateUser(req.params.id, req.body);
-
     res.status(200).json({
       status: "success",
       message: "Usuario actualizado correctamente",
@@ -81,11 +77,32 @@ async function updateUser(req, res, next) {
 async function deleteUser(req, res, next) {
   try {
     await userService.deleteUser(req.params.id);
-
     res.status(200).json({
       status: "success",
       message: "Usuario eliminado correctamente",
       data: null
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function showProfile(req, res, next) {
+  try {
+    const user = await userService.getUserById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        message: "Usuario autenticado no encontrado",
+        data: null
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Perfil obtenido correctamente",
+      data: user
     });
   } catch (error) {
     next(error);
@@ -98,5 +115,6 @@ module.exports = {
   showUserWithOrders,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  showProfile
 };

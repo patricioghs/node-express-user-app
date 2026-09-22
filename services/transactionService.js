@@ -23,34 +23,24 @@ async function createUserAndOrder({
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-
     const user = await User.create(
       { nombre, email, passwordHash },
       { transaction }
     );
 
-    // Permite demostrar rollback de manera controlada para la evaluación.
     if (forceError === true) {
       throw new Error("Error forzado para demostrar rollback");
     }
 
     const order = await Order.create(
-      {
-        userId: user.id,
-        descripcion,
-        total,
-        estado: "pendiente"
-      },
+      { userId: user.id, descripcion, total, estado: "pendiente" },
       { transaction }
     );
 
     await transaction.commit();
     console.log("Transacción completada: usuario y pedido creados");
 
-    return {
-      usuario: sanitizeUser(user),
-      pedido: order
-    };
+    return { usuario: sanitizeUser(user), pedido: order };
   } catch (error) {
     await transaction.rollback();
     console.error("Rollback ejecutado:", error.message);
@@ -59,6 +49,4 @@ async function createUserAndOrder({
   }
 }
 
-module.exports = {
-  createUserAndOrder
-};
+module.exports = { createUserAndOrder };

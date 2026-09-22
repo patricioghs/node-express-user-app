@@ -1,5 +1,23 @@
+const multer = require("multer");
+
 function errorHandler(err, req, res, next) {
   console.error(err);
+
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        status: "error",
+        message: "El archivo supera el límite de 2 MB",
+        data: null
+      });
+    }
+
+    return res.status(400).json({
+      status: "error",
+      message: `Error de subida: ${err.message}`,
+      data: null
+    });
+  }
 
   if (err.name === "SequelizeValidationError") {
     return res.status(400).json({
